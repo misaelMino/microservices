@@ -1,0 +1,25 @@
+# Global
+node_modules/
+.env
+.env.*           
+*.log
+npm-debug.log*
+# .env.local, .env.production, etc.
+# Build
+dist/
+build/
+
+# IDEs / Configs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Specific for Vite (frontend)
+front-microservices/dist/
+
+# Optional: si compilás en backend con TypeScript
+**/dist/
+**/build/
