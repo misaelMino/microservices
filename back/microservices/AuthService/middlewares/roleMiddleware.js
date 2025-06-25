@@ -1,7 +1,9 @@
-const roleMiddleware = (roles) => (req, res, next) => {
-  const user = req.decoded;
-  if (!roles.includes(user.role)) {
-    return res.status(403).json({ error: 'Acceso denegado' });
-  }
-  next();
+//Middleware para verifdicar roles, se prueba cambiando el 
+const roleMiddleware = (requiredRole) => {
+  return (req, res, next) => {
+    if (!req.user || req.user.role !== requiredRole) {
+      return res.status(403).json({ error: 'No tenés permisos para acceder a este recurso' });
+    }
+    next();
+  };
 };

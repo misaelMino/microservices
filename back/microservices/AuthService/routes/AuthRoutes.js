@@ -1,3 +1,50 @@
+import express from 'express';
+import { authenticateUser, authMiddleware } from '../middlewares/authMiddleware.js';
+import { login, refresh } from '../controllers/authController.js';
+
+const router = express.Router();
+
+router.post('/login', authenticateUser, login);
+router.post('/refresh', refresh);
+router.post('/generate-qr', generateQRController);
+router.post('/verify-totp', authMiddleware, verifyTOTPController);
+// si querés poner las otras (/generate-qr, /verify-totp), mandalas también a su controller
+
+export default router;
+
+
+
+app.post('/login', authenticateUser, (req, res) => {
+  try {
+    const { username, role } = req.user;
+
+    const accessToken = generateToken({ username, role }, '1m');
+    const refreshToken = generateToken({ username, role }, '15m');
+    res.json({
+      accessToken: accessToken,
+      tokenExpiresIn: '1m',
+      refreshToken: refreshToken,
+      refreshTokenExpiresIn: '15m',
+      message: 'Autenticación exitosa'
+    });
+  } catch (error) {
+    console.error('Error en login:', error);
+    res.status(500).json({ error: 'Error al generar el token' });
+  }
+});
+
+app.post('/refresh', async (req, res) => {
+  try {
+    const newAccessToken = await refreshToken(req.body.refreshToken);
+    res.json({
+      token: newAccessToken,
+      expiresIn: '1m'
+    });
+  } catch (err) {
+    res.status(err.status || 500).json({ error: err.message || 'Error al renovar token' });
+  }
+});
+
 app.post('/generate-qr', async (req, res) => {
   const { email, appName } = req.body;
   if (!email || !appName) return res.status(400).json({ error: 'Faltan email o appName' });
@@ -57,7 +104,3 @@ app.post('/verify-totp', authMiddleware, async (req, res) => {
   }
 });
 
-app.post('/login', authenticateUser, (req, res) => {
-  const token = generateToken(req.user, '1h'); // Token válido por 1 hora
-  res.json({ token });
-});

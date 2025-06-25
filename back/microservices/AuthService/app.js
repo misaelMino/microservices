@@ -1,17 +1,14 @@
 import express from 'express';
-import speakeasy from 'speakeasy';
-import qrcode from 'qrcode';
-import qrcodeTerminal from 'qrcode-terminal';
-import connectMongo from './config/configMongo.js';
-import { saveOrUpdateTOTPSecret } from './repository.js';
-import TOTPSecret from './models/TOTPSecret.js';
-import authMiddleware from './authMiddleware.js';
-import { authenticateUser, generateToken } from './auth.js';
+import authRoutes from './routes/AuthRoutes.js';
 
 const app = express();
 app.use(express.json());
 
-await connectMongo();
+app.use('/auth', authRoutes);
+
+// Otros routers...
+
+export default app;
 
 
 
