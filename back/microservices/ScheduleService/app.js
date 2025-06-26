@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import authRoutes from './routes/ScheduleRoutes.js';
+import ScheduleRoutes from './routes/ScheduleRoutes.js';
 
 dotenv.config(); 
 
@@ -13,7 +13,7 @@ const startServer = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('✅ Conectado a MongoDB');
-    app.use('/auth', authRoutes);
+    app.use('/schedule', ScheduleRoutes);
     app.listen(3001, () => {
       console.log('🚀 Server en puerto 3001');
     });

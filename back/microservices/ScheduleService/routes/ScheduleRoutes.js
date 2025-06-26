@@ -1,17 +1,25 @@
-import express from 'express';
-import { authBasicMiddleware, authMiddleware } from '../middlewares/authMiddleware.js';
-import { loginController, refreshController } from '../controllers/authController.js';
-import { generateQRController, verifyTOTPController } from '../controllers/totpController.js';
-import { registerController } from '../controllers/userController.js';
+import { registerActController,
+     getAllActivitiesController,
+     getActivityByIdController,
+     updateActivityController,
+     deleteActivityController
+     } from '../controllers/activityController.js';
+import { authMiddleware } from '../middlewares/authMiddleware.js';
+import roleMiddleware from '../middlewares/roleMiddleware.js';
+
+
+
 const router = express.Router();
- 
-router.post('/login-basic', authBasicMiddleware, loginController);
-router.post('/refresh', refreshController);
-router.post('/generate-qr', generateQRController);
-router.post('/verify-totp', authMiddleware, verifyTOTPController);
-router.post('/register', registerController);
-
-
+router.post(
+  '/activities',
+  authMiddleware,            // Verifica token JWT
+  roleMiddleware('organizador'), // Solo organizador puede crear
+  registerActController         // Lógica de crear actividad
+);
+router.get('/activities', getAllActivitiesController);
+router.get('/activities/:id', getActivityByIdController);
+router.put('/activities/:id', authMiddleware, roleMiddleware('organizador'), updateActivityController);
+router.delete('/activities/:id', authMiddleware, roleMiddleware('organizador'), deleteActivityController);
 
 
 
