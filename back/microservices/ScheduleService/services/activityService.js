@@ -1,20 +1,10 @@
-import Activity from '../models/Activity.js';
+import { validarRangoEvento, validarSalaLibre, validarExpositorLibre } from './activityValidation.js';
 
-export const registerActivity = async ({ title, description, startTime, endTime, roomId, exhibitorId, eventId }) => {
-  
-  //logica para ver si la hora de la actividad está dentro del rango de la hora del evento
-  //logica para ver si en ese evento la sala solicitada está disponible en el rango de horario de inicio y fin
-  //logica para ver si el expositor no está en otra actividad
- 
-  const newActivity = new Activity({
-    title,
-    description,
-    startTime,
-    endTime,
-    roomId,
-    exhibitorId,
-    eventId
-  });
+export const registerActivity = async (data) => {
+  await validarRangoEvento(data.eventId, data.startTime, data.endTime);
+  await validarSalaLibre(data.roomId, data.startTime, data.endTime, data.eventId);
+  await validarExpositorLibre(data.exhibitorId, data.startTime, data.endTime);
 
+  const newActivity = new Activity(data);
   return await newActivity.save();
 };

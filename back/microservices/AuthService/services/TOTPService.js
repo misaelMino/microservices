@@ -13,7 +13,7 @@ export const generateTOTPSecret = async (email, appName) => {
     encoding: 'base32'
   });
 
-  // 🖨️ Mostrar en consola (reutilizable desde cualquier lugar)
+  // Mostrar en consola (reutilizable desde cualquier lugar) podría ser un utils
   qrcode.toString(url, { type: 'terminal', small: true }, (err, qr) => {
     if (err) return console.error('❌ Error al generar QR:', err);
     console.log('📲 Escaneá este QR con Google Authenticator:\n');
