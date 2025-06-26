@@ -15,4 +15,5 @@ TOTPSecretSchema.pre('save', function (next) {
 });
 
 const TOTPSecret = mongoose.model('TOTPSecret', TOTPSecretSchema);
+
 export default TOTPSecret;

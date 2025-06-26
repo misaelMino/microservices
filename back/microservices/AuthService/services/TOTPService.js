@@ -1,16 +1,26 @@
 import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
-import TOTPSecret from '../models/TOTPSecret';
+import TOTPSecret from '../models/TOTPSecret.js';
 
 
-export const generateTOTPSecret = (email, appName) => {
+export const generateTOTPSecret = async (email, appName) => {
   const secret = speakeasy.generateSecret({ length: 20 });
+
   const url = speakeasy.otpauthURL({
     secret: secret.base32,
     label: `${appName}:${email}`,
     issuer: appName,
     encoding: 'base32'
   });
+
+  // 🖨️ Mostrar en consola (reutilizable desde cualquier lugar)
+  qrcode.toString(url, { type: 'terminal', small: true }, (err, qr) => {
+    if (err) return console.error('❌ Error al generar QR:', err);
+    console.log('📲 Escaneá este QR con Google Authenticator:\n');
+    console.log(qr);
+    console.log(`🔐 Base32 (manual): ${secret.base32}`);
+  });
+
   return { secret, url };
 };
 
