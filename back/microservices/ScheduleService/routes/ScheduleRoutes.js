@@ -13,14 +13,14 @@ const router = express.Router();
 router.post(
   '/activities',
   authMiddleware,            // Verifica token JWT
-  roleMiddleware('organizador'), // Solo organizador puede crear
+  roleMiddleware(['organizador']), // Solo organizador puede crear
   registerActController         // Lógica de crear actividad
 );
 router.get('/activities/upcoming', getUpcomingActivities);
-router.get('/activities', getAllActivitiesController);
-router.get('/activities/:id', getActivityByIdController);
-router.put('/activities/:id', authMiddleware, roleMiddleware('organizador'), updateActivityController);
-router.delete('/activities/:id', authMiddleware, roleMiddleware('organizador'), deleteActivityController);
+router.get('/activities', roleMiddleware(['organizador']), getAllActivitiesController);
+router.get('/activities/:id', roleMiddleware(['expositor', 'asistente']), getActivityByIdController);
+router.put('/activities/:id', authMiddleware, roleMiddleware(['organizador']), updateActivityController);
+router.delete('/activities/:id', authMiddleware, roleMiddleware(['organizador']),  deleteActivityController);
 
 
 

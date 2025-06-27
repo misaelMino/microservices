@@ -5,9 +5,8 @@ const ActivitiesSchema = new mongoose.Schema({
   description: { type: String, required: true },
   startTime: { type: Date, required: true },
   endTime: { type: Date, required: true },
-  roomId: { type: mongoose.Schema.Types.ObjectId, ref: 'rooms' },
-  exhibitorId: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
-  eventId: { type: mongoose.Schema.Types.ObjectId, ref: 'events' },
+  exhibitorId: { type: mongoose.Schema.Types.ObjectId },
+  eventId: { type: mongoose.Schema.Types.ObjectId },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });

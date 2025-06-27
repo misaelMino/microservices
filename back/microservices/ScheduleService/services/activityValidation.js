@@ -1,10 +1,12 @@
 // services/activityValidation.js
 import axios from 'axios';
 import { EventDTO } from '../dto/EventDTO.js';
+import Activity from '../models/Activity.js';
+import mongoose from 'mongoose';
 
 export const isEventRangeAvailable = async (eventId, startTime, endTime) => {
   try {
-    const response = await axios.get(`http://localhost:3001/api/events/${eventId}`); // consultar URL LU
+    const response = await axios.get(`http://localhost:3001/events/${eventId}`); // consultar URL LU
     const event = new EventDTO(response.data);
 
     if (startTime < event.startDate || endTime > event.endDate) {
@@ -13,26 +15,6 @@ export const isEventRangeAvailable = async (eventId, startTime, endTime) => {
   } catch (err) {
     console.error('Error al validar rango del evento:', err.message || err);
     throw { status: 404, message: 'Evento no encontrado o servicio no disponible' };
-  }
-};
-
-export const isRoomAvailable = async (roomId, startTime, endTime, eventId) => {
-  const conflict = await Activity.findOne({
-    eventId: new mongoose.Types.ObjectId(eventId),
-    roomId: new mongoose.Types.ObjectId(roomId),
-    $or: [
-      {
-        startTime: { $lt: endTime },
-        endTime: { $gt: startTime }
-      }
-    ]
-  });
-
-  if (conflict) {
-    throw {
-      status: 400,
-      message: 'La sala ya está ocupada en ese horario'
-    };
   }
 };
 

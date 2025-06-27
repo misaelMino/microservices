@@ -17,10 +17,6 @@ export const getNotificationsController = async (req, res) => {
   try {
     const userId = req.params.userId;
 
-    if (req.user?.id !== userId && req.user?.role !== 'organizador') {
-      return res.status(403).json({ error: 'Acceso no autorizado' });
-    }
-
     const notifications = await getNotificationsForUser(userId);
     res.json(notifications);
   } catch (err) {

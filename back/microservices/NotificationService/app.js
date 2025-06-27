@@ -10,11 +10,11 @@ startReminderJob();
 const app = express();
 app.use(express.json());
 
-app.use('/notification', notificationRoutes);
+app.use('/notifications', notificationRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('✅ Mongo conectado');
-    app.listen(3003, () => console.log('🚀 NotificationService on port 3003'));
+    app.listen(3005, () => console.log('🚀 NotificationService on port 3005'));
   })
   .catch((err) => console.error('❌ Error de conexión:', err));
