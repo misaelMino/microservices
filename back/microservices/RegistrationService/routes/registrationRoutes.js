@@ -18,7 +18,7 @@ const generateUniqueQRCodeData = () => {
 
 // --- POST /api/v1/registrations - Inscribir un participante a un evento ---
 // Requiere rol de asistente (cuando se implemente la seguridad)
-router.post('/', authBasicMiddleware, async (req, res) => {
+router.post('/', authBasicMiddleware, roleMiddleware(['asistente']), async (req, res) => {
   try {
     // Cuando integres la seguridad, 'participanteId' vendrá del JWT:
     // const participanteId = req.user.id;
@@ -82,10 +82,9 @@ router.get('/my', authBasicMiddleware, async (req, res) => {
   }
 });
 
-
 // --- GET /api/v1/registrations/events/:eventId/registrations - Obtener todas las inscripciones para un evento ---
 // Requiere rol de organizador o administrador (cuando se implemente la seguridad)
-router.get('/events/:eventId/registrations', authBasicMiddleware, async (req, res) => {
+router.get('/events/:eventId/registrations', roleMiddleware(['organizador']), authBasicMiddleware, async (req, res) => {
   try {
     const { eventId } = req.params;
     const registrations = await Registration.find({ eventoId: eventId });
@@ -104,7 +103,7 @@ router.get('/events/:eventId/registrations', authBasicMiddleware, async (req, re
 
 // --- PUT /api/v1/registrations/:id/status - Actualizar el estado de una inscripción ---
 // Requiere rol de organizador o administrador (cuando se implemente la seguridad)
-router.put('/:id/status', authBasicMiddleware, async (req, res) => {
+router.put('/:id/status', roleMiddleware(['asistente', 'organizador']), authBasicMiddleware, async (req, res) => {
   try {
     const { status } = req.body;
     const allowedStatuses = ['pendiente', 'confirmado', 'cancelado'];

@@ -9,7 +9,7 @@ import { authBasicMiddleware } from '../middlewares/authMiddleware.js';
 // const authMiddleware = require('../middleware/authMiddleware');
 
 // GET /events - Obtener todos los eventos
-router.get('/', authBasicMiddleware, roleMiddleware('organizador'), async (req, res) => {
+router.get('/', authBasicMiddleware, roleMiddleware(['asistente', 'organizador']), async (req, res) => {
   try {
     // Puedes añadir lógica para filtrar por estado, por ejemplo:
     const { estado } = req.query; // Si la URL es /events?estado=activo
@@ -23,7 +23,7 @@ router.get('/', authBasicMiddleware, roleMiddleware('organizador'), async (req, 
 });
 
 // GET /events/:id - Obtener detalles de un evento específico
-router.get('/:id', authBasicMiddleware, roleMiddleware('organizador'), async (req, res) => {
+router.get('/:id', authBasicMiddleware, roleMiddleware(['organizador']), async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
     if (!event) return res.status(404).json({ message: 'Evento no encontrado' });
@@ -39,7 +39,7 @@ router.get('/:id', authBasicMiddleware, roleMiddleware('organizador'), async (re
 
 // POST /events - Crear un nuevo evento
 // Aquí iría el authMiddleware con los roles necesarios
-router.post('/', authBasicMiddleware, roleMiddleware('organizador'), async (req, res) => { // , authMiddleware.authorize(['organizador', 'administrador'])
+router.post('/', authBasicMiddleware, roleMiddleware(['organizador']), async (req, res) => { // , authMiddleware.authorize(['organizador', 'administrador'])
     console.log('Cuerpo de la petición recibido:', req.body); // <-- Añade esta línea
   try {
     const event = new Event({
@@ -62,7 +62,7 @@ router.post('/', authBasicMiddleware, roleMiddleware('organizador'), async (req,
 
 // PUT /events/:id - Actualizar un evento
 // Aquí iría el authMiddleware con los roles necesarios (organizadores, administradores)
-router.put('/:id', authBasicMiddleware, roleMiddleware('organizador'), async (req, res) => { // , authMiddleware.authorize(['organizador', 'administrador'])
+router.put('/:id', authBasicMiddleware, roleMiddleware(['organizador']), async (req, res) => { // , authMiddleware.authorize(['organizador', 'administrador'])
   try {
     const event = await Event.findById(req.params.id);
     if (!event) return res.status(404).json({ message: 'Evento no encontrado' });
@@ -92,7 +92,7 @@ router.put('/:id', authBasicMiddleware, roleMiddleware('organizador'), async (re
 
 // DELETE /events/:id - Eliminar un evento
 // Aquí iría el authMiddleware con los roles necesarios (organizadores, administradores)
-router.delete('/:id', authBasicMiddleware, roleMiddleware('organizador'), async (req, res) => { // , authMiddleware.authorize(['organizador', 'administrador'])
+router.delete('/:id', authBasicMiddleware, roleMiddleware(['organizador']), async (req, res) => { // , authMiddleware.authorize(['organizador', 'administrador'])
   try {
     const event = await Event.findById(req.params.id);
     if (!event) return res.status(404).json({ message: 'Evento no encontrado' });

@@ -12,7 +12,7 @@ const router = express.Router();
 router.post(
   '/notifications',
   authBasicMiddleware,
-  roleMiddleware('organizador'), // solo organizadores
+  roleMiddleware(['organizador']), // solo organizadores
   createNotificationController
 );
 
