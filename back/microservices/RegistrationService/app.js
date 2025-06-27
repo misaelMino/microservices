@@ -19,7 +19,7 @@ mongoose.connect(mongoUri)
 
 // --- Importar y Usar Rutas de Inscripciones (las crearemos en el siguiente paso) ---
 const registrationRoutes = require('./routes/registrationRoutes');
-app.use('/api/v1/registrations', registrationRoutes); // Prefijo para todas las rutas de inscripción
+app.use('/registration', registrationRoutes); // Prefijo para todas las rutas de inscripción
 
 // --- Ruta de Prueba ---
 // Ruta de ejemplo: GET /

@@ -24,7 +24,7 @@ mongoose.connect(mongoUri)
 
 const eventRoutes = require('./routes/eventRoutes');
 
-app.use('/api/v1/events', eventRoutes); // Esto hace que todas las rutas de eventRoutes empiecen con /api/v1/events
+app.use('/events', eventRoutes); // Esto hace que todas las rutas de eventRoutes empiecen con /api/v1/events
 
 // --- Rutas de Prueba ---
 // Ruta de ejemplo: GET /

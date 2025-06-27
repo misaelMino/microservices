@@ -18,11 +18,10 @@ export const registerActController = async (req, res) => {
 
 export const getAllActivitiesController = async (req, res) => {
   try {
-    const { eventId, roomId, exhibitorId } = req.query;
+    const { eventId, exhibitorId } = req.query;
     const filter = {};
 
     if (eventId) filter.eventId = eventId;
-    if (roomId) filter.roomId = roomId;
     if (exhibitorId) filter.exhibitorId = exhibitorId;
 
     const activities = await getAllActivities(filter);

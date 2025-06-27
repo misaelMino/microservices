@@ -15,7 +15,6 @@ const generateUniqueQRCodeData = () => {
   return uuidv4(); // Genera un ID universal único
 };
 
-
 // --- POST /api/v1/registrations - Inscribir un participante a un evento ---
 // Requiere rol de asistente (cuando se implemente la seguridad)
 router.post('/', async (req, res) => {
@@ -59,7 +58,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-
 // --- GET /api/v1/registrations/my - Obtener las inscripciones del usuario actual ---
 // Requiere autenticación (cuando se implemente la seguridad)
 router.get('/my', async (req, res) => {
@@ -102,7 +100,6 @@ router.get('/events/:eventId/registrations', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 // --- PUT /api/v1/registrations/:id/status - Actualizar el estado de una inscripción ---
 // Requiere rol de organizador o administrador (cuando se implemente la seguridad)

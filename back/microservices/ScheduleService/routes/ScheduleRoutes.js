@@ -12,8 +12,8 @@ import { getUpcomingActivities } from '../controllers/activityController.js';
 const router = express.Router();
 router.post(
   '/activities',
-  authMiddleware,            // Verifica token JWT
-  roleMiddleware('organizador'), // Solo organizador puede crear
+  //authMiddleware,            // Verifica token JWT
+  //roleMiddleware('organizador'), // Solo organizador puede crear
   registerActController         // Lógica de crear actividad
 );
 router.get('/activities/upcoming', getUpcomingActivities);
