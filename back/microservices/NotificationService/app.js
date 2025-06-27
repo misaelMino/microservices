@@ -10,7 +10,7 @@ startReminderJob();
 const app = express();
 app.use(express.json());
 
-app.use('/notification', notificationRoutes);
+app.use('/notifications', notificationRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

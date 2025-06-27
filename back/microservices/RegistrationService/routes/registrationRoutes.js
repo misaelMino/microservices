@@ -5,7 +5,8 @@ const router = express.Router();
 const Registration = require('../models/Registration');
 const qrcode = require('qrcode'); // Importar la librería qrcode
 const { v4: uuidv4 } = require('uuid'); // Para generar IDs únicos para el QR (npm install uuid)
-
+import { authBasicMiddleware } from '../middlewares/authMiddleware.js';
+import { roleMiddleware } from '../middlewares/roleMiddleware'
 // IMPORTANTE: Cuando tengas el Auth Service listo, aquí irían los middlewares
 // const { authenticateToken, authorize } = require('../middleware/authMiddleware');
 
@@ -17,7 +18,7 @@ const generateUniqueQRCodeData = () => {
 
 // --- POST /api/v1/registrations - Inscribir un participante a un evento ---
 // Requiere rol de asistente (cuando se implemente la seguridad)
-router.post('/', async (req, res) => {
+router.post('/', authBasicMiddleware, async (req, res) => {
   try {
     // Cuando integres la seguridad, 'participanteId' vendrá del JWT:
     // const participanteId = req.user.id;
@@ -60,7 +61,7 @@ router.post('/', async (req, res) => {
 
 // --- GET /api/v1/registrations/my - Obtener las inscripciones del usuario actual ---
 // Requiere autenticación (cuando se implemente la seguridad)
-router.get('/my', async (req, res) => {
+router.get('/my', authBasicMiddleware, async (req, res) => {
   try {
     // Cuando integres la seguridad, 'participanteId' vendrá del JWT:
     // const participanteId = req.user.id;
@@ -84,7 +85,7 @@ router.get('/my', async (req, res) => {
 
 // --- GET /api/v1/registrations/events/:eventId/registrations - Obtener todas las inscripciones para un evento ---
 // Requiere rol de organizador o administrador (cuando se implemente la seguridad)
-router.get('/events/:eventId/registrations', async (req, res) => {
+router.get('/events/:eventId/registrations', authBasicMiddleware, async (req, res) => {
   try {
     const { eventId } = req.params;
     const registrations = await Registration.find({ eventoId: eventId });
@@ -103,7 +104,7 @@ router.get('/events/:eventId/registrations', async (req, res) => {
 
 // --- PUT /api/v1/registrations/:id/status - Actualizar el estado de una inscripción ---
 // Requiere rol de organizador o administrador (cuando se implemente la seguridad)
-router.put('/:id/status', async (req, res) => {
+router.put('/:id/status', authBasicMiddleware, async (req, res) => {
   try {
     const { status } = req.body;
     const allowedStatuses = ['pendiente', 'confirmado', 'cancelado'];
@@ -132,7 +133,7 @@ router.put('/:id/status', async (req, res) => {
 });
 
 // --- GET /api/v1/registrations/:id/qr - Obtener el código QR de una inscripción ---
-router.get('/:id/qr', async (req, res) => {
+router.get('/:id/qr', authBasicMiddleware, async (req, res) => {
   try {
     const registration = await Registration.findById(req.params.id);
     if (!registration) {
