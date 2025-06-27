@@ -1,13 +1,16 @@
 // registration-service/app.js
 
-const express = require('express');
-const mongoose = require('mongoose');
-require('dotenv').config(); // Carga las variables de entorno desde .env
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import registrationRoutes from './routes/registrationRoutes.js';
+ // Carga las variables de entorno desde .env
 
 const app = express();
 const port = process.env.PORT || 3003; // Puerto para el servicio de inscripciones
 
 // Middleware para que Express entienda JSON en las peticiones
+dotenv.config();
 app.use(express.json());
 
 // --- Conexión a la Base de Datos ---
@@ -18,7 +21,7 @@ mongoose.connect(mongoUri)
   .catch(err => console.error('Error al conectar a MongoDB (Registration Service):', err));
 
 // --- Importar y Usar Rutas de Inscripciones (las crearemos en el siguiente paso) ---
-const registrationRoutes = require('./routes/registrationRoutes');
+
 app.use('/registration', registrationRoutes); // Prefijo para todas las rutas de inscripción
 
 // --- Ruta de Prueba ---

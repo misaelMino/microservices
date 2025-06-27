@@ -1,6 +1,6 @@
 // registration-service/models/Registration.js
 
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const registrationSchema = new mongoose.Schema({
   participanteId: {
@@ -39,4 +39,6 @@ const registrationSchema = new mongoose.Schema({
   timestamps: true // Añade `createdAt` y `updatedAt` automáticamente
 });
 
-module.exports = mongoose.model('Registration', registrationSchema);
+
+const Registration = mongoose.model('Registration', registrationSchema);
+export default Registration;
