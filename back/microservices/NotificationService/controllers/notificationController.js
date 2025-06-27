@@ -16,12 +16,18 @@ export const createNotificationController = async (req, res) => {
 export const getNotificationsController = async (req, res) => {
   try {
     const userId = req.params.userId;
+
+    if (req.user?.id !== userId && req.user?.role !== 'organizador') {
+      return res.status(403).json({ error: 'Acceso no autorizado' });
+    }
+
     const notifications = await getNotificationsForUser(userId);
     res.json(notifications);
   } catch (err) {
     res.status(500).json({ error: 'Error al obtener notificaciones' });
   }
 };
+
 
 export const markAsReadController = async (req, res) => {
   try {
