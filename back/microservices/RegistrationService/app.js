@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv').config(); // Carga las variables de entorno desde .env
 
 const app = express();
-const port = process.env.PORT || 3002; // Puerto para el servicio de inscripciones
+const port = process.env.PORT || 3003; // Puerto para el servicio de inscripciones
 
 // Middleware para que Express entienda JSON en las peticiones
 app.use(express.json());

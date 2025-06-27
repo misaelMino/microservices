@@ -14,8 +14,8 @@ const startServer = async () => {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('✅ Conectado a MongoDB');
     app.use('/schedule', ScheduleRoutes);
-    app.listen(3001, () => {
-      console.log('🚀 Server en puerto 3001');
+    app.listen(3004, () => {
+      console.log('🚀 Server en puerto 3004');
     });
   } catch (err) {
     console.error('❌ Error al conectar con MongoDB:', err.message);
