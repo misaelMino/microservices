@@ -1,26 +1,20 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import ScheduleRoutes from './routes/ScheduleRoutes.js';
+import notificationRoutes from './routes/notificationRoutes.js';
+import { startReminderJob } from './cron/reminderJob.js';
 
-dotenv.config(); 
 
+dotenv.config();
+startReminderJob();
 const app = express();
 app.use(express.json());
 
-// Conexión a MongoDB
-const startServer = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log('✅ Conectado a MongoDB');
-    app.use('/schedule', ScheduleRoutes);
-    app.listen(3001, () => {
-      console.log('🚀 Server en puerto 3001');
-    });
-  } catch (err) {
-    console.error('❌ Error al conectar con MongoDB:', err.message);
-    process.exit(1);
-  }
-};
+app.use('/notification', notificationRoutes);
 
-startServer();
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log('✅ Mongo conectado');
+    app.listen(3003, () => console.log('🚀 NotificationService on port 3003'));
+  })
+  .catch((err) => console.error('❌ Error de conexión:', err));

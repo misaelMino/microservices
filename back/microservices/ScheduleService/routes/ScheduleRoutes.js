@@ -6,8 +6,8 @@ import { registerActController,
      } from '../controllers/activityController.js';
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 import roleMiddleware from '../middlewares/roleMiddleware.js';
-
-
+import express from 'express';
+import { getUpcomingActivities } from '../controllers/activityController.js';
 
 const router = express.Router();
 router.post(
@@ -16,6 +16,7 @@ router.post(
   roleMiddleware('organizador'), // Solo organizador puede crear
   registerActController         // Lógica de crear actividad
 );
+router.get('/activities/upcoming', getUpcomingActivities);
 router.get('/activities', getAllActivitiesController);
 router.get('/activities/:id', getActivityByIdController);
 router.put('/activities/:id', authMiddleware, roleMiddleware('organizador'), updateActivityController);

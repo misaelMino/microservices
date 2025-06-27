@@ -1,5 +1,5 @@
 {
-  "name": "auth-service",
+  "name": "schedule-service",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
