@@ -7,3 +7,5 @@ const roleMiddleware = (requiredRole) => {
     next();
   };
 };
+
+export default roleMiddleware;
