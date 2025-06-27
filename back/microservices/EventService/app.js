@@ -6,9 +6,11 @@
 
 //ruta crear
 //ruta configurrar
-const express = require('express');
-const mongoose = require('mongoose');
-require('dotenv').config(); // Carga las variables de entorno
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import eventRoutes from './routes/eventRoutes.js';
+dotenv.config(); // Carga las variables de entorno
 
 const app = express();
 const port = process.env.PORT || 3001; // Puerto para tu servicio de eventos
@@ -22,7 +24,7 @@ mongoose.connect(mongoUri)
   .then(() => console.log('Conectado a MongoDB'))
   .catch(err => console.error('Error al conectar a MongoDB:', err));
 
-const eventRoutes = require('./routes/eventRoutes');
+
 
 app.use('/events', eventRoutes); // Esto hace que todas las rutas de eventRoutes empiecen con /api/v1/events
 

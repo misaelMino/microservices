@@ -16,7 +16,7 @@ router.post(
   roleMiddleware(['organizador']), // Solo organizador puede crear
   registerActController         // Lógica de crear actividad
 );
-router.get('/activities/upcoming', roleMiddleware(['organizador']), getUpcomingActivities);
+router.get('/activities/upcoming', getUpcomingActivities);
 router.get('/activities', roleMiddleware(['organizador']), getAllActivitiesController);
 router.get('/activities/:id', roleMiddleware(['expositor', 'asistente']), getActivityByIdController);
 router.put('/activities/:id', authMiddleware, roleMiddleware(['organizador']), updateActivityController);

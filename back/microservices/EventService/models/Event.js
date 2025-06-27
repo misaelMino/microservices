@@ -1,6 +1,6 @@
 // event-service/models/Event.js
 
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const eventSchema = new mongoose.Schema({
   nombre: {
@@ -45,4 +45,5 @@ const eventSchema = new mongoose.Schema({
   timestamps: true // Añade `createdAt` y `updatedAt` automáticamente
 });
 
-module.exports = mongoose.model('Event', eventSchema);
+const Event = mongoose.model('Event', eventSchema);
+export default Event;
